@@ -1,49 +1,44 @@
-from PyQt6.QtWidgets import QWidget,QApplication,QLabel
+from PyQt6.QtWidgets import QWidget,QApplication,QLabel,QPushButton,QLineEdit
 import sys
 from PyQt6.QtGui import QPixmap,QFont
 
 class Window(QWidget):
   def __init__(self):
     super().__init__()
-
+    self.initUI()
+  
+  def initUI(self):
     self.setWindowTitle("First PyQT Window")
     self.setGeometry(0, 0, 400, 400)
 
-    with open('car.png'):
-      image_label = QLabel(self)
-      pixmap = QPixmap('car.png')
-      image_label.setPixmap(pixmap)
-      image_label.move(60,0)
-
-    # Car name
+    # Label
     name_label = QLabel(self)
-    name_label.setText("My Car")
-    name_label.setFont(QFont("Araial", 14))
-    name_label.move(170,170)
+    name_label.setText("Enter your name")
+    name_label.move(60, 10)
 
-    # Engine Specs
-    engine_label = QLabel(self)
-    engine_label.setText("Engine Capacity: 4L TFSI")
-    engine_label.setFont(QFont("Araial", 10))
-    engine_label.move(10,210)
+    # Input
+    self.name = QLineEdit(self)
+    self.name.resize(200,20)
+    # name.setPlaceholderText("Enter your name")
+    self.name.move(60, 30)
 
-    # Features
-    features_label = QLabel(self)
-    features_label.setText("Features: ABS, EBD, ADAS")
-    features_label.setFont(QFont("Araial", 10))
-    features_label.move(10,240)
+    # Button
+    button = QPushButton(self)
+    button.setText("Add")
+    button.move(200, 80)
+    button.clicked.connect(self.button_clicked)
 
-    # Models
-    models_label = QLabel(self)
-    models_label.setText("Models: 2.2 Petrol, 1.8 Diesel")
-    models_label.setFont(QFont("Araial", 10))
-    models_label.move(10,270)
+    # Label
+    self.result_label = QLabel(self)
+    self.result_label.setFixedSize(150,20)
+    self.result_label.move(60, 120)
 
-    # Pricing
-    pricing_label = QLabel(self)
-    pricing_label.setText("$80,000")
-    pricing_label.setFont(QFont("Araial", 10))
-    pricing_label.move(10,300)
+  def button_clicked(self):
+    print(f"Your name is {self.name.text()}")
+    self.result_label.setText(f"Your name is {self.name.text()}")
+    
+
+    
 
     
 
