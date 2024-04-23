@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QMainWindow,QWidget,QApplication,QLabel,QPushButton,QLineEdit,QCheckBox,QMessageBox
+from PyQt6.QtWidgets import QVBoxLayout,QHBoxLayout,QMainWindow,QWidget,QApplication,QLabel,QPushButton,QLineEdit,QCheckBox,QMessageBox
 import sys
 from PyQt6.QtGui import QPixmap,QFont
 
-class Window(QMainWindow):
+class Window(QWidget):
   def __init__(self):
     super().__init__()
     self.initUI()
@@ -11,38 +11,29 @@ class Window(QMainWindow):
     self.setWindowTitle("First PyQT Window")
     self.setGeometry(0, 0, 400, 150)
 
-    num_label = QLabel("Enter a number", self)
-    num_label.move(20, 20)
+    button_1 = QPushButton("Button 1")
+    button_2 = QPushButton("Button 2")
+    button_3 = QPushButton("Button 3")
+    button_4 = QPushButton("Button 4")
 
-    self.num_input = QLineEdit(self)
-    self.num_input.move(200, 20)
+    h_box_1 = QHBoxLayout()
+    h_box_1.addWidget(button_1)
+    h_box_1.addWidget(button_2)
 
-    cal_button = QPushButton("Find Root", self)
-    cal_button.move(200, 60)
-    cal_button.clicked.connect(self.find_root)
+    h_box_2 = QHBoxLayout()
+    h_box_2.addWidget(button_3)
+    h_box_2.addWidget(button_4)
 
-    self.result_label = QLabel("Result: ", self)
-    self.result_label.move(20,100)
-  
-  def find_root(self):
-    try:
-      num = int(self.num_input.text())
-      if num < 0:
-        msg = QMessageBox.warning(self, "Invalid input","Please enter a positive number")
-        return 
-      root = num ** 0.5
-      if root.is_integer():
-        self.result_label.setText("The root of {} is {}".format(num, root))
-        self.result_label.resize(300,20)
-      else:
-        msg = QMessageBox.warning(self, "Not a perfect square","The number you entered is not a perfect square")
-    except ValueError:
-      msg = QMessageBox.warning(self, "Invalid input","Please enter a valid number")
-      
+    v_box = QVBoxLayout()
+    v_box.addLayout(h_box_1)
+    v_box.addLayout(h_box_2)
+
+    self.setLayout(v_box)
 
 
 
-   
+
+    
 
 app = QApplication(sys.argv)
 window = Window()
