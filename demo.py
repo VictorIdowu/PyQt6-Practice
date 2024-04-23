@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QWidget,QApplication,QLabel,QPushButton,QLineEdit
+from PyQt6.QtWidgets import QMainWindow,QWidget,QApplication,QLabel,QPushButton,QLineEdit,QCheckBox
 import sys
 from PyQt6.QtGui import QPixmap,QFont
 
-class Window(QWidget):
+class Window(QMainWindow):
   def __init__(self):
     super().__init__()
     self.initUI()
@@ -11,46 +11,43 @@ class Window(QWidget):
     self.setWindowTitle("First PyQT Window")
     self.setGeometry(0, 0, 400, 150)
 
-    # Label
-    num1_label = QLabel("Enter first number",self)
-    num1_label.resize(200,20)
-    num1_label.move(20, 20)
+    # Total cost of coffee 
+    self.total_cost = 0
 
-    # Input
-    self.num1_input = QLineEdit(self)
-    self.num1_input.resize(200,20)
-    self.num1_input.move(150, 20)
+    self.label = QLabel("Select your options", self)
+    self.label.resize(200,20)
+    self.label.move(20, 20)
 
-    # Label 2
-    num2_label = QLabel("Enter second number",self)
-    num2_label.resize(200,20)
-    num2_label.move(20, 60)
+    # Checkboxs
+    sugar_checkbox = QCheckBox("Sugar($ 0.5)", self)
+    sugar_checkbox.move(20, 40)
+    sugar_checkbox.toggled.connect(self.sugar_checked)
 
-    # Input 2
-    self.num2_input = QLineEdit(self)
-    self.num2_input.resize(200,20)
-    self.num2_input.move(150, 60)
+    milk_checkbox = QCheckBox("Milk($ 1)", self)
+    milk_checkbox.move(20, 60)
+    milk_checkbox.toggled.connect(self.milk_checked)
 
-    # Button
-    button = QPushButton("Calculate",self)
-    button.move(270, 100)
-    button.clicked.connect(self.calculate)
-
-    # Label
-    self.result_label = QLabel("Result: ", self)
-    self.result_label.move(20, 100)
-
-  def calculate(self):
-    try:
-      result = float(self.num1_input.text()) + float(self.num2_input.text())
-      self.result_label.setText(f"Result: {result:.2f}")
-      self.result_label.resize(300,20)
-    except ValueError:
-      self.result_label.setText("Invalid Input, Please enter numbers")
-      self.result_label.resize(300,20)
+    self.result_label = QLabel("Total cost is $0", self)
+    self.result_label.resize(200,20)
+    self.result_label.move(20, 90)
 
     
 
+
+  def sugar_checked(self,checked):
+    if checked:
+      self.total_cost += 0.5
+    else:
+      self.total_cost -= 0.5
+    self.result_label.setText(f"Total cost is ${self.total_cost}")
+
+  def milk_checked(self,checked):
+    if checked:
+      self.total_cost += 1
+    else:
+      self.total_cost -= 1
+    self.result_label.setText(f"Total cost is ${self.total_cost}")
+  
 
 app = QApplication(sys.argv)
 window = Window()
