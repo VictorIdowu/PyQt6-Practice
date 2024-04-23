@@ -9,36 +9,45 @@ class Window(QWidget):
   
   def initUI(self):
     self.setWindowTitle("First PyQT Window")
-    self.setGeometry(0, 0, 400, 400)
+    self.setGeometry(0, 0, 400, 150)
 
     # Label
-    name_label = QLabel(self)
-    name_label.setText("Enter your name")
-    name_label.move(60, 10)
+    num1_label = QLabel("Enter first number",self)
+    num1_label.resize(200,20)
+    num1_label.move(20, 20)
 
     # Input
-    self.name = QLineEdit(self)
-    self.name.resize(200,20)
-    # name.setPlaceholderText("Enter your name")
-    self.name.move(60, 30)
+    self.num1_input = QLineEdit(self)
+    self.num1_input.resize(200,20)
+    self.num1_input.move(150, 20)
+
+    # Label 2
+    num2_label = QLabel("Enter second number",self)
+    num2_label.resize(200,20)
+    num2_label.move(20, 60)
+
+    # Input 2
+    self.num2_input = QLineEdit(self)
+    self.num2_input.resize(200,20)
+    self.num2_input.move(150, 60)
 
     # Button
-    button = QPushButton(self)
-    button.setText("Add")
-    button.move(200, 80)
-    button.clicked.connect(self.button_clicked)
+    button = QPushButton("Calculate",self)
+    button.move(270, 100)
+    button.clicked.connect(self.calculate)
 
     # Label
-    self.result_label = QLabel(self)
-    self.result_label.setFixedSize(150,20)
-    self.result_label.move(60, 120)
+    self.result_label = QLabel("Result: ", self)
+    self.result_label.move(20, 100)
 
-  def button_clicked(self):
-    print(f"Your name is {self.name.text()}")
-    self.result_label.setText(f"Your name is {self.name.text()}")
-    
-
-    
+  def calculate(self):
+    try:
+      result = float(self.num1_input.text()) + float(self.num2_input.text())
+      self.result_label.setText(f"Result: {result:.2f}")
+      self.result_label.resize(300,20)
+    except ValueError:
+      self.result_label.setText("Invalid Input, Please enter numbers")
+      self.result_label.resize(300,20)
 
     
 
