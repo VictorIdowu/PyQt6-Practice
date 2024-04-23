@@ -11,23 +11,36 @@ class Window(QMainWindow):
     self.setWindowTitle("First PyQT Window")
     self.setGeometry(0, 0, 400, 150)
 
-    button  = QPushButton("Show Messagebox", self)
-    button.setGeometry(150, 80, 200, 40)
-    button.clicked.connect(self.show_messagebox)
+    num_label = QLabel("Enter a number", self)
+    num_label.move(20, 20)
 
+    self.num_input = QLineEdit(self)
+    self.num_input.move(200, 20)
+
+    cal_button = QPushButton("Find Root", self)
+    cal_button.move(200, 60)
+    cal_button.clicked.connect(self.find_root)
+
+    self.result_label = QLabel("Result: ", self)
+    self.result_label.move(20,100)
   
-  def show_messagebox(self):
-    msg = QMessageBox()
-    msg.setWindowTitle("Message Box")
-    msg.setText("This is a message box")
-    msg.setIcon(QMessageBox.Icon.Information)
-    msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
-    msg.setDefaultButton(QMessageBox.StandardButton.Ok)
-    result = msg.exec()
-    if result == QMessageBox.StandardButton.Ok:
-      print("OK")
-    else:
-      print("Cancel")
+  def find_root(self):
+    try:
+      num = int(self.num_input.text())
+      if num < 0:
+        msg = QMessageBox.warning(self, "Invalid input","Please enter a positive number")
+        return 
+      root = num ** 0.5
+      if root.is_integer():
+        self.result_label.setText("The root of {} is {}".format(num, root))
+        self.result_label.resize(300,20)
+      else:
+        msg = QMessageBox.warning(self, "Not a perfect square","The number you entered is not a perfect square")
+    except ValueError:
+      msg = QMessageBox.warning(self, "Invalid input","Please enter a valid number")
+      
+
+
 
    
 
