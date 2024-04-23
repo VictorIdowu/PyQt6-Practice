@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow,QWidget,QApplication,QLabel,QPushButton,QLineEdit,QCheckBox
+from PyQt6.QtWidgets import QMainWindow,QWidget,QApplication,QLabel,QPushButton,QLineEdit,QCheckBox,QMessageBox
 import sys
 from PyQt6.QtGui import QPixmap,QFont
 
@@ -11,43 +11,25 @@ class Window(QMainWindow):
     self.setWindowTitle("First PyQT Window")
     self.setGeometry(0, 0, 400, 150)
 
-    # Total cost of coffee 
-    self.total_cost = 0
+    button  = QPushButton("Show Messagebox", self)
+    button.setGeometry(150, 80, 200, 40)
+    button.clicked.connect(self.show_messagebox)
 
-    self.label = QLabel("Select your options", self)
-    self.label.resize(200,20)
-    self.label.move(20, 20)
-
-    # Checkboxs
-    sugar_checkbox = QCheckBox("Sugar($ 0.5)", self)
-    sugar_checkbox.move(20, 40)
-    sugar_checkbox.toggled.connect(self.sugar_checked)
-
-    milk_checkbox = QCheckBox("Milk($ 1)", self)
-    milk_checkbox.move(20, 60)
-    milk_checkbox.toggled.connect(self.milk_checked)
-
-    self.result_label = QLabel("Total cost is $0", self)
-    self.result_label.resize(200,20)
-    self.result_label.move(20, 90)
-
-    
-
-
-  def sugar_checked(self,checked):
-    if checked:
-      self.total_cost += 0.5
-    else:
-      self.total_cost -= 0.5
-    self.result_label.setText(f"Total cost is ${self.total_cost}")
-
-  def milk_checked(self,checked):
-    if checked:
-      self.total_cost += 1
-    else:
-      self.total_cost -= 1
-    self.result_label.setText(f"Total cost is ${self.total_cost}")
   
+  def show_messagebox(self):
+    msg = QMessageBox()
+    msg.setWindowTitle("Message Box")
+    msg.setText("This is a message box")
+    msg.setIcon(QMessageBox.Icon.Information)
+    msg.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+    msg.setDefaultButton(QMessageBox.StandardButton.Ok)
+    result = msg.exec()
+    if result == QMessageBox.StandardButton.Ok:
+      print("OK")
+    else:
+      print("Cancel")
+
+   
 
 app = QApplication(sys.argv)
 window = Window()
